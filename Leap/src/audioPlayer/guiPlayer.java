@@ -26,37 +26,34 @@ public class guiPlayer implements Runnable{
         }
     }
     public void play() {
-        if(null!=threadState)switch (threadState) {
-            case Stopped:
-                playerThread.start();
-                threadState=threadStates.Running;
-                break;
-            case Suspended:
-                playerThread.resume();
-                threadState=threadStates.Running;
-                break;
-            case Running:
-                playerThread.suspend();
-                threadState=threadStates.Suspended;
-                break;
-            case Killed:
-                playerThread = new Thread(this);
-                try {
-                    playMP3=new Player(fis);
-                    playMP3.play(0);
-                } catch (JavaLayerException ex) {
-                    Logger.getLogger(guiPlayer.class.getName()).log(Level.SEVERE, null, ex);
-                }   playerThread.start();
-                threadState=threadStates.Running;
-                break;
-            default:
-                break;
+        if(threadState==threadStates.Stopped){
+            playerThread.start();
+            threadState=threadStates.Running;
+        }
+        else if(threadState==threadStates.Suspended){
+            playerThread.resume();
+            threadState=threadStates.Running;
+        }
+        else if(threadState==threadStates.Running){
+            playerThread.suspend();
+            threadState=threadStates.Suspended;
+        }
+        else if(threadState==threadStates.Killed){
+            try {
+                playMP3 = new Player(fis);
+            } catch (JavaLayerException ex) {
+                Logger.getLogger(guiPlayer.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            playerThread = new Thread(this);
+            playerThread.start();
+            threadState=threadStates.Running;
         }
     }
         
     public void stop(){
         if(threadState==threadStates.Suspended || threadState==threadState.Running){
             playerThread.stop();
+            playMP3.close();
             threadState=threadStates.Killed;
         }
     }
