@@ -15,9 +15,9 @@ public class guiPlayer implements Runnable{
     private threadStates threadState;
     private  FileInputStream fis;
 
-    public guiPlayer(){
+    public guiPlayer(String uri){
         try{
-            fis = new FileInputStream("/Users/JaviRubio/Documents/SeatBDE/SeatBDE/Leap/assets/rustyCage.mp3");
+            fis = new FileInputStream(uri);
             playMP3 = new Player(fis);
             playerThread = new Thread(this);
             threadState=threadStates.Stopped;
