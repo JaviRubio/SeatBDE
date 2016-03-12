@@ -87,6 +87,7 @@ class SampleListener extends Listener {
 
             switch (gesture.type()) {
                 case TYPE_CIRCLE:
+                    
                     CircleGesture circle = new CircleGesture(gesture);
 
                     // Calculate clock direction using the angle between circle normal and pointable
@@ -111,11 +112,11 @@ class SampleListener extends Listener {
                                + ", radius: " + circle.radius()
                                + ", angle: " + Math.toDegrees(sweptAngle)
                                + ", " + clockwiseness);*/
-                    System.out.println("CIRCLE");
+                    System.out.println("CIRCLE "+ clockwiseness );
                     break;
                 case TYPE_SWIPE:
                     SwipeGesture swipe = new SwipeGesture(gesture);
-                    System.out.println("SWIPE");
+                    System.out.println("SWIPE ");
                    /* System.out.println("  Swipe id: " + swipe.id()
                                + ", " + swipe.state()
                                + ", position: " + swipe.position()
@@ -132,7 +133,7 @@ class SampleListener extends Listener {
                     break;
                 case TYPE_KEY_TAP:
                     KeyTapGesture keyTap = new KeyTapGesture(gesture);
-                    System.out.println("KEY_TAP");
+                    System.out.println("KEY_TAP");                    
                     /*System.out.println("  Key Tap id: " + keyTap.id()
                                + ", " + keyTap.state()
                                + ", position: " + keyTap.position()
