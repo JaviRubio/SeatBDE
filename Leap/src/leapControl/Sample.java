@@ -1,16 +1,23 @@
 package leapControl;
 import java.io.IOException;
-import java.lang.Math;
 import com.leapmotion.leap.*;
 import com.leapmotion.leap.Gesture.State;
+import java.util.Date;
 
 class SampleListener extends Listener {
+   
+    // System out wrapper with date
+    private void sout(String msg) {
+        Date date = new Date();
+        System.out.println("[" + date.toString() + "] " + msg);
+    }
+    
     public void onInit(Controller controller) {
-        System.out.println("Initialized");
+        sout("Initialized");
     }
 
     public void onConnect(Controller controller) {
-        System.out.println("Connected");
+        sout("Connected");
         controller.enableGesture(Gesture.Type.TYPE_SWIPE);
         controller.enableGesture(Gesture.Type.TYPE_CIRCLE);
         controller.enableGesture(Gesture.Type.TYPE_SCREEN_TAP);
@@ -19,11 +26,11 @@ class SampleListener extends Listener {
 
     public void onDisconnect(Controller controller) {
         //Note: not dispatched when running in a debugger.
-        System.out.println("Disconnected");
+        sout("Disconnected");
     }
 
     public void onExit(Controller controller) {
-        System.out.println("Exited");
+        sout("Bye");
     }
 
     public void onFrame(Controller controller) {
@@ -112,12 +119,11 @@ class SampleListener extends Listener {
                                + ", radius: " + circle.radius()
                                + ", angle: " + Math.toDegrees(sweptAngle)
                                + ", " + clockwiseness);*/
-                    System.out.println("CIRCLE "+ clockwiseness );
-                    
+                    sout("CIRCLE " + clockwiseness);
                     break;
                 case TYPE_SWIPE:
                     SwipeGesture swipe = new SwipeGesture(gesture);
-                    System.out.println("SWIPE ");
+                    sout("SWIPE");
                    /* System.out.println("  Swipe id: " + swipe.id()
                                + ", " + swipe.state()
                                + ", position: " + swipe.position()
@@ -126,7 +132,7 @@ class SampleListener extends Listener {
                     break;
                 case TYPE_SCREEN_TAP:
                     ScreenTapGesture screenTap = new ScreenTapGesture(gesture);
-                    System.out.println("SCREEN_TAP");
+                    sout("SCREEN_TAP");
                    /* System.out.println("  Screen Tap id: " + screenTap.id()
                                + ", " + screenTap.state()
                                + ", position: " + screenTap.position()
@@ -134,15 +140,20 @@ class SampleListener extends Listener {
                     break;
                 case TYPE_KEY_TAP:
                     KeyTapGesture keyTap = new KeyTapGesture(gesture);
-                    System.out.println("KEY_TAP");                    
+                    sout("KEY_TAP");
                     /*System.out.println("  Key Tap id: " + keyTap.id()
                                + ", " + keyTap.state()
                                + ", position: " + keyTap.position()
                                + ", direction: " + keyTap.direction());*/
                     break;
                 default:
-                    System.out.println("Unknown gesture type.");
+                    //System.out.println("Unknown gesture type.");
+                    sout("UNKNOWN");
                     break;
+            }
+            try {
+                Thread.sleep(1000);
+            } catch (Exception e){
             }
         }
 
