@@ -113,6 +113,7 @@ class SampleListener extends Listener {
                                + ", angle: " + Math.toDegrees(sweptAngle)
                                + ", " + clockwiseness);*/
                     System.out.println("CIRCLE "+ clockwiseness );
+                    
                     break;
                 case TYPE_SWIPE:
                     SwipeGesture swipe = new SwipeGesture(gesture);
