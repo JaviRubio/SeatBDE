@@ -11,6 +11,9 @@ class SampleListener extends Listener {
         gui gui = new gui();
         String ruta="";
         int count=0;
+        audioPlayer.guiPlayer reproductor;
+        String [] listaCanciones={"assets/rustyCage.mp3","assets/youcan.mp3"};
+        int cancionActual;
         
    
     // System out wrapper with date
@@ -22,6 +25,8 @@ class SampleListener extends Listener {
     public void onInit(Controller controller) {
         sout("Initialized");
         gui.setVisible(true);
+        cancionActual=0;
+        reproductor = new guiPlayer(listaCanciones[cancionActual]);
     }
 
     public void onConnect(Controller controller) {
@@ -163,7 +168,7 @@ class SampleListener extends Listener {
                                + ", position: " + screenTap.position()
                                + ", direction: " + screenTap.direction());*/
                     ruta="/carGui/Botón PLAY_mini.png";
-                    audioPlayer.guiPlayer reproductor = new guiPlayer("assets/rustyCage.mp3");
+                   
                     reproductor.play();
                     break;
                 case TYPE_KEY_TAP:
@@ -174,6 +179,9 @@ class SampleListener extends Listener {
                                + ", position: " + keyTap.position()
                                + ", direction: " + keyTap.direction());*/
                     ruta="/carGui/Botón No_mini.png";
+                    cancionActual++;
+                    reproductor.stop();
+                    reproductor = new guiPlayer(listaCanciones[cancionActual%2]);
                     break;
                 default:
                     //System.out.println("Unknown gesture type.");
@@ -181,7 +189,7 @@ class SampleListener extends Listener {
                     break;
             }
             try {
-                Thread.sleep(1000);
+                Thread.sleep(700);
             } catch (Exception e){
             }
             gui.setImage(ruta);
