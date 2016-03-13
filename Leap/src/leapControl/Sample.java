@@ -1,10 +1,16 @@
 package leapControl;
+import carGui.gui;
 import java.io.IOException;
 import com.leapmotion.leap.*;
 import com.leapmotion.leap.Gesture.State;
 import java.util.Date;
 
 class SampleListener extends Listener {
+    
+        gui gui = new gui();
+        String ruta="";
+        int count=0;
+        
    
     // System out wrapper with date
     private void sout(String msg) {
@@ -14,6 +20,7 @@ class SampleListener extends Listener {
     
     public void onInit(Controller controller) {
         sout("Initialized");
+        gui.setVisible(true);
     }
 
     public void onConnect(Controller controller) {
@@ -34,6 +41,8 @@ class SampleListener extends Listener {
     }
 
     public void onFrame(Controller controller) {
+
+        
         // Get the most recent frame and report some basic information
         Frame frame = controller.frame();
         /*System.out.println("Frame id: " + frame.id()
@@ -119,6 +128,20 @@ class SampleListener extends Listener {
                                + ", radius: " + circle.radius()
                                + ", angle: " + Math.toDegrees(sweptAngle)
                                + ", " + clockwiseness);*/
+                    
+                    String aux="/carGui/rotor";
+                    if(clockwiseness=="clockwise")
+                        if(count<4){
+                            count++;
+                        }
+                    if(clockwiseness=="counterclockwise")
+                        if(count>0){
+                            count--;
+                        }   
+                    aux=aux+count;
+                    aux=aux+".png";
+                    System.out.println(aux);
+                    ruta=aux;
                     sout("CIRCLE " + clockwiseness);
                     break;
                 case TYPE_SWIPE:
@@ -129,6 +152,7 @@ class SampleListener extends Listener {
                                + ", position: " + swipe.position()
                                + ", direction: " + swipe.direction()
                                + ", speed: " + swipe.speed());*/
+                    ruta="/carGui/Boton ANTERIOR_mini.png";
                     break;
                 case TYPE_SCREEN_TAP:
                     ScreenTapGesture screenTap = new ScreenTapGesture(gesture);
@@ -137,6 +161,7 @@ class SampleListener extends Listener {
                                + ", " + screenTap.state()
                                + ", position: " + screenTap.position()
                                + ", direction: " + screenTap.direction());*/
+                    ruta="/carGui/Botón PLAY_mini.png";
                     break;
                 case TYPE_KEY_TAP:
                     KeyTapGesture keyTap = new KeyTapGesture(gesture);
@@ -145,6 +170,7 @@ class SampleListener extends Listener {
                                + ", " + keyTap.state()
                                + ", position: " + keyTap.position()
                                + ", direction: " + keyTap.direction());*/
+                    ruta="/carGui/Botón No_mini.png";
                     break;
                 default:
                     //System.out.println("Unknown gesture type.");
@@ -155,6 +181,8 @@ class SampleListener extends Listener {
                 Thread.sleep(1000);
             } catch (Exception e){
             }
+            gui.setImage(ruta);
+            
         }
 
         if (!frame.hands().isEmpty() || !gestures.isEmpty()) {
@@ -165,13 +193,14 @@ class SampleListener extends Listener {
 
 class Sample {
     public static void main(String[] args) {
+        
         // Create a sample listener and controller
         SampleListener listener = new SampleListener();
         Controller controller = new Controller();
 
         // Have the sample listener receive events from the controller
         controller.addListener(listener);
-
+        
         // Keep this process running until Enter is pressed
         System.out.println("Press Enter to quit...");
         try {
