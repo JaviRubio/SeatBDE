@@ -1,4 +1,5 @@
 package leapControl;
+import audioPlayer.guiPlayer;
 import carGui.gui;
 import java.io.IOException;
 import com.leapmotion.leap.*;
@@ -162,6 +163,8 @@ class SampleListener extends Listener {
                                + ", position: " + screenTap.position()
                                + ", direction: " + screenTap.direction());*/
                     ruta="/carGui/Botón PLAY_mini.png";
+                    audioPlayer.guiPlayer reproductor = new guiPlayer("assets/rustyCage.mp3");
+                    reproductor.play();
                     break;
                 case TYPE_KEY_TAP:
                     KeyTapGesture keyTap = new KeyTapGesture(gesture);
